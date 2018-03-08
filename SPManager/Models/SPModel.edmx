@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SPDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="University" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudyPlan">
+          <Key>
+            <PropertyRef Name="SPID" />
+          </Key>
+          <Property Name="SPID" Type="int" Nullable="false" />
+          <Property Name="ContentDesc" Type="varchar" MaxLength="255" />
+          <Property Name="Status" Type="varchar" MaxLength="10" />
+          <Property Name="Program" Type="int" />
+        </EntityType>
+        <EntityType Name="University">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__StudyPlan__Fk_Pr__47DBAE45">
+          <End Role="Program" Type="Self.Program" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudyPlan" Type="Self.StudyPlan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="PID" />
+            </Principal>
+            <Dependent Role="StudyPlan">
+              <PropertyRef Name="Program" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Program_University">
+          <End Role="University" Type="Self.University" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Program" Type="Self.Program" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="University">
+              <PropertyRef Name="UID" />
+            </Principal>
+            <Dependent Role="Program">
+              <PropertyRef Name="University" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SPDBModelStoreContainer">
+          <EntitySet Name="Program" EntityType="Self.Program" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudyPlan" EntityType="Self.StudyPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="University" EntityType="Self.University" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__StudyPlan__Fk_Pr__47DBAE45" Association="Self.FK__StudyPlan__Fk_Pr__47DBAE45">
+            <End Role="Program" EntitySet="Program" />
+            <End Role="StudyPlan" EntitySet="StudyPlan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Program_University" Association="Self.FK_Program_University">
+            <End Role="University" EntitySet="University" />
+            <End Role="Program" EntitySet="Program" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SPDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="University" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StudyPlans" Relationship="Self.FK__StudyPlan__Fk_Pr__47DBAE45" FromRole="Program" ToRole="StudyPlan" />
+          <NavigationProperty Name="University1" Relationship="Self.FK_Program_University" FromRole="Program" ToRole="University" />
+        </EntityType>
+        <EntityType Name="StudyPlan">
+          <Key>
+            <PropertyRef Name="SPID" />
+          </Key>
+          <Property Name="SPID" Type="Int32" Nullable="false" />
+          <Property Name="ContentDesc" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Program" Type="Int32" />
+          <NavigationProperty Name="Program1" Relationship="Self.FK__StudyPlan__Fk_Pr__47DBAE45" FromRole="StudyPlan" ToRole="Program" />
+        </EntityType>
+        <EntityType Name="University">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Programs" Relationship="Self.FK_Program_University" FromRole="University" ToRole="Program" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__StudyPlan__Fk_Pr__47DBAE45">
+          <End Role="Program" Type="Self.Program" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudyPlan" Type="Self.StudyPlan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="PID" />
+            </Principal>
+            <Dependent Role="StudyPlan">
+              <PropertyRef Name="Program" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Program_University">
+          <End Role="University" Type="Self.University" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Program" Type="Self.Program" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="University">
+              <PropertyRef Name="UID" />
+            </Principal>
+            <Dependent Role="Program">
+              <PropertyRef Name="University" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SPDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Programs" EntityType="Self.Program" />
+          <EntitySet Name="StudyPlans" EntityType="Self.StudyPlan" />
+          <EntitySet Name="Universities" EntityType="Self.University" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__StudyPlan__Fk_Pr__47DBAE45" Association="Self.FK__StudyPlan__Fk_Pr__47DBAE45">
+            <End Role="Program" EntitySet="Programs" />
+            <End Role="StudyPlan" EntitySet="StudyPlans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Program_University" Association="Self.FK_Program_University">
+            <End Role="University" EntitySet="Universities" />
+            <End Role="Program" EntitySet="Programs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SPDBModelStoreContainer" CdmEntityContainer="SPDBEntities">
+          <EntitySetMapping Name="Programs">
+            <EntityTypeMapping TypeName="SPDBModel.Program">
+              <MappingFragment StoreEntitySet="Program">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="University" ColumnName="University" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudyPlans">
+            <EntityTypeMapping TypeName="SPDBModel.StudyPlan">
+              <MappingFragment StoreEntitySet="StudyPlan">
+                <ScalarProperty Name="SPID" ColumnName="SPID" />
+                <ScalarProperty Name="ContentDesc" ColumnName="ContentDesc" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Universities">
+            <EntityTypeMapping TypeName="SPDBModel.University">
+              <MappingFragment StoreEntitySet="University">
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SPDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
