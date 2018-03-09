@@ -15,9 +15,36 @@ namespace SPManager.Controllers
         private SPDBEntities db = new SPDBEntities();
 
         // GET: Universities
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
-            return View(db.Universities.ToList());
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DescriptionSortParm = sortOrder == "description" ? "description_desc" : "description";
+
+            var universities = from u in db.Universities
+                               select u;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                universities = universities.Where(u => u.Name.Contains(searchString)
+                                            || u.Description.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    universities = universities.OrderByDescending(u => u.Name);
+                    break;
+                case "description":
+                    universities = universities.OrderBy(u => u.Description);
+                    break;
+                case "description_desc":
+                    break;
+                default:
+                    universities = universities.OrderBy(u => u.Name);
+                    break;
+            }
+
+            return View(universities.ToList());
         }
 
         // GET: Universities/Details/5

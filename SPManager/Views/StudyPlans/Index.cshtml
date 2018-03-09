@@ -4,21 +4,22 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Study Plans</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ContentDesc)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Program1.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
         </th>
         <th></th>
     </tr>
@@ -28,16 +29,17 @@
         <td>
             @Html.DisplayFor(modelItem => item.ContentDesc)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.Program1.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SPID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SPID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SPID })
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.SPID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.SPID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.SPID })
         </td>
     </tr>
 }
