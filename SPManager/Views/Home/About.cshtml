@@ -1,7 +1,30 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@model IEnumerable<SPManager.Views.StatsGroup>
 
-<p>Use this area to provide additional information.</p>
+@{ 
+    ViewBag.Title = "Statistics";
+}
+
+<h2>University Statistics</h2>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Universities
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UniversityName)
+            </td>
+            <td>
+                @item.UniversityCount               
+            </td>
+        </tr>
+    }
+</table>
