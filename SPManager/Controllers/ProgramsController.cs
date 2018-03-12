@@ -15,9 +15,35 @@ namespace SPManager.Controllers
         private SPDBEntities db = new SPDBEntities();
 
         // GET: Programs
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
-            var programs = db.Programs.Include(p => p.University1);
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DescriptionSortParm = sortOrder == "description" ? "description_desc" : "description";
+
+            var programs = from p in db.Programs
+                               select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                programs = programs.Where(p => p.Name.Contains(searchString)
+                                            || p.Description.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    programs = programs.OrderByDescending(p => p.Name);
+                    break;
+                case "description":
+                    programs = programs.OrderBy(p => p.Description);
+                    break;
+                case "description_desc":
+                    break;
+                default:
+                    programs = programs.OrderBy(p => p.Name);
+                    break;
+            }
+
             return View(programs.ToList());
         }
 

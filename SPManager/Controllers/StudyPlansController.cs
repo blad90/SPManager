@@ -15,9 +15,34 @@ namespace SPManager.Controllers
         private SPDBEntities db = new SPDBEntities();
 
         // GET: StudyPlans
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
-            var studyPlans = db.StudyPlans.Include(s => s.Program1);
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DescriptionSortParm = sortOrder == "description" ? "description_desc" : "description";
+
+            var studyPlans = from sp in db.StudyPlans
+                           select sp;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                studyPlans = studyPlans.Where(sp => sp.ContentDesc.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    studyPlans = studyPlans.OrderByDescending(sp => sp.ContentDesc);
+                    break;
+                case "description":
+                    studyPlans = studyPlans.OrderBy(sp => sp.ContentDesc);
+                    break;
+                case "description_desc":
+                    break;
+                default:
+                    studyPlans = studyPlans.OrderBy(sp => sp.ContentDesc);
+                    break;
+            }
+
             return View(studyPlans.ToList());
         }
 

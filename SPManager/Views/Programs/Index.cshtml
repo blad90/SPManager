@@ -9,13 +9,22 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" class="btn btn-secundary" />
+    </p>
+}
+
 <table class="table table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.DescriptionSortParm })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.University1.Name)
@@ -23,23 +32,24 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.University1.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.University1.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.PID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.PID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.PID })
+            </td>
+        </tr>
+    }
 
 </table>

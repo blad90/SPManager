@@ -11,7 +11,8 @@ namespace SPManager.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Program
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +22,7 @@ namespace SPManager.Models
         }
     
         public int PID { get; set; }
+        [Display(Name="Program")]
         public string Name { get; set; }
         public string Description { get; set; }
         public int University { get; set; }
